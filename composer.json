@@ -1,0 +1,18 @@
+{
+    "name": "surrealcristian/snmp-netsnmpclient",
+    "description": "Wrapper over the Net-SNMP CLI client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cristian Cabrera",
+            "email": "surrealcristian@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "SurrealCristian\\SnmpNetSnmpClient\\": "src"
+        }
+    }
+}
