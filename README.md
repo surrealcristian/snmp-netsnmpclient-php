@@ -56,7 +56,7 @@ $snmp = new SimpleSnmpV2c();
 
 #### `get`
 
-```
+```php
 <?php
 
 try {
