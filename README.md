@@ -13,13 +13,10 @@ Wrapper over the Net-SNMP CLI client.
 
 ```
 namespace SurrealCristian\SnmpNetSnmpClient
-```
 
-```
+
 class SimpleSnmpV2c
-```
 
-```
 public array get(string $host, string $community, string $oid, int $timeout, int $retries)
 
 public array getNext(string $host, string $community, string $oid, int $timeout, int $retries)
@@ -167,7 +164,7 @@ try {
 
 #### `set`
 
-```
+```php
 <?php
 
 try {
