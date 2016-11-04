@@ -1,6 +1,6 @@
 # SNMP Net-SNMP Client
 
-(!) *WORK IN PROGRESS*, the API can have some changes.
+**WORK IN PROGRESS**, the API can have some changes.
 
 Wrapper over the Net-SNMP CLI client. Serves as an alternative to the PHP SNMP
 extension.
@@ -46,7 +46,7 @@ $snmp = (new Builder)->getSimpleSnmpV2c();
 
 #### `get`
 
-```
+```php
 <?php
 
 try {
