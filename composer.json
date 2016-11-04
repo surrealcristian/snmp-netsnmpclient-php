@@ -1,6 +1,8 @@
 {
     "name": "surrealcristian/snmp-netsnmpclient",
-    "description": "Wrapper over the Net-SNMP CLI client",
+    "description": "Wrapper over the Net-SNMP CLI client.",
+    "keywords": [ "snmp", "net-snmp" ],
+    "homepage": "https://github.com/surrealcristian/snmp-netsnmpclient-php",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,10 +11,20 @@
             "email": "surrealcristian@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.0"
+    },
     "autoload": {
         "psr-4": {
             "SurrealCristian\\SnmpNetSnmpClient\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SurrealCristian\\SnmpNetSnmpClient\\Test\\": "tests"
         }
     }
 }
