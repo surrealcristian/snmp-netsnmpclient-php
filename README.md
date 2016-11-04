@@ -2,33 +2,23 @@
 
 (!) *WORK IN PROGRESS*, the API can have some changes.
 
-Wrapper over the Net-SNMP CLI client.
+Wrapper over the Net-SNMP CLI client. Serves as an alternative to the PHP SNMP
+extension.
 
 
-## Dependencies
+## Install
 
-- PHP >= 5.3
-- Net-SNMP CLI client
+Via Composer
 
-
-## API
-
+``` bash
+$ composer require surrealcristian/snmp-netsnmpclient
 ```
-namespace SurrealCristian\SnmpNetSnmpClient
 
 
-class SimpleSnmpV2c
+## Requirements
 
-public array get(string $host, string $community, string $oid, int $timeout, int $retries)
-
-public array getNext(string $host, string $community, string $oid, int $timeout, int $retries)
-
-public array walk(string $host, string $community, string $oid, int $timeout, int $retries)
-
-public array bulkWalk(string $host, string $community, string $oid, int $timeout, int $retries)
-
-public set(string $host, string $community, string $oid, string $type, string $value, int $timeout, int $retries)
-```
+- PHP 5.4+
+- Net-SNMP CLI client (`sudo apt-get install snmp`)
 
 
 ## Usage
@@ -43,7 +33,7 @@ public set(string $host, string $community, string $oid, string $type, string $v
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use SurrealCristian\SnmpNetSnmpClient\SimpleSnmpV2c;
+use SurrealCristian\SnmpNetSnmpClient\Builder;
 use SurrealCristian\SnmpNetSnmpClient\TimeoutException;
 
 $host = '127.0.0.1';
@@ -51,7 +41,7 @@ $community = 'private';
 $timeout = 1000000; // microseconds
 $retries = 3;
 
-$snmp = new SimpleSnmpV2c();
+$snmp = (new Builder)->getSimpleSnmpV2c();
 ```
 
 #### `get`
@@ -180,6 +170,45 @@ try {
 }
 ```
 
+
+## API
+
+```
+namespace SurrealCristian\SnmpNetSnmpClient
+
+
+class Builder
+
+public SimpleSnmpV2c getSimpleSnmpV2c ()
+
+
+class SimpleSnmpV2c
+
+public array get ( string $host, string $community, string $oid, int $timeout, int $retries )
+
+public array getNext ( string $host, string $community, string $oid, int $timeout, int $retries )
+
+public array walk ( string $host, string $community, string $oid, int $timeout, int $retries )
+
+public array bulkWalk ( string $host, string $community, string $oid, int $timeout, int $retries )
+
+public set ( string $host, string $community, string $oid, string $type, string $value, int $timeout, int $retries )
+```
+
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information
+
+
+## Testing
+
+```bash
+$ cd /path/to/repo
+$ phpunit
+```
+
+
 ## License
 
-MIT
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
