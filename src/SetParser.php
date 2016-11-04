@@ -3,7 +3,6 @@
 namespace SurrealCristian\SnmpNetSnmpClient;
 
 use RuntimeException;
-use SurrealCristian\SnmpNetSnmpClient\Str;
 
 class SetParser
 {

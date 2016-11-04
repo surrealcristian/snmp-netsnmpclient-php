@@ -3,12 +3,18 @@
 namespace SurrealCristian\SnmpNetSnmpClient;
 
 use RuntimeException;
-use SurrealCristian\SnmpNetSnmpClient\Line;
+use SurrealCristian\SnmpNetSnmpClient\LineFactory;
 
 class Parser
 {
+    protected $lineFactory;
     protected $buffer;
     protected $ret;
+
+    public function __construct(LineFactory $lineFactory)
+    {
+        $this->lineFactory = $lineFactory;
+    }
 
     public function parse($rawResponse)
     {
@@ -20,7 +26,7 @@ class Parser
         unset($rawResponse);
 
         foreach ($rawLines as $rawLine) {
-            $line = new Line($rawLine);
+            $line = $this->lineFactory->makeLine($rawLine);
             $line->parse();
 
             if (
@@ -40,10 +46,6 @@ class Parser
 
     protected function processBuffer()
     {
-        if (empty($this->buffer)) {
-            throw new RuntimeException('Empty line objects buffer');
-        }
-
         $firstLine = array_shift($this->buffer);
 
         if ($firstLine->type !== 'OID_TYPEOPT_VALUE') {
