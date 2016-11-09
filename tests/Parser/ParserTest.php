@@ -57,7 +57,7 @@ EOS;
     }
 
     /**
-     * @expectedException SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException
+     * @expectedException SurrealCristian\SimpleSnmp\Exception\SimpleSnmpException
      */
     public function testParseThrowsBaseException()
     {

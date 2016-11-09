@@ -32,7 +32,7 @@ class ProcOpenFnParserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SurrealCristian\SnmpNetSnmpClient\Exception\TimeoutException
+     * @expectedException SurrealCristian\SimpleSnmp\Exception\TimeoutException
      */
     public function testParseThrowsTimeoutException()
     {
@@ -46,7 +46,7 @@ class ProcOpenFnParserTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException
+     * @expectedException SurrealCristian\SimpleSnmp\Exception\SimpleSnmpException
      */
     public function testParseThrowsBaseException()
     {

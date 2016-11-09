@@ -32,8 +32,8 @@ $ composer require surrealcristian/snmp-netsnmpclient
 require __DIR__ . '/../vendor/autoload.php';
 
 use SurrealCristian\SnmpNetSnmpClient\Builder;
-use SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException;
-use SurrealCristian\SnmpNetSnmpClient\Exception\TimeoutException;
+use SurrealCristian\SimpleSnmp\Exception\SimpleSnmpException;
+use SurrealCristian\SimpleSnmp\Exception\TimeoutException;
 
 $host = '127.0.0.1';
 $community = 'private';
@@ -56,7 +56,7 @@ try {
     var_export($res);
 } catch (TimeoutException $e) {
     // handle exception
-} catch (SnmpNetSnmpClientException $e) {
+} catch (SimpleSnmpException $e) {
     // handle exception
 }
 
@@ -80,7 +80,7 @@ try {
     var_export($res);
 } catch (TimeoutException $e) {
     // handle exception
-} catch (SnmpNetSnmpClientException $e) {
+} catch (SimpleSnmpException $e) {
     // handle exception
 }
 
@@ -104,7 +104,7 @@ try {
     var_export($res);
 } catch (TimeoutException $e) {
     // handle exception
-} catch (SnmpNetSnmpClientException $e) {
+} catch (SimpleSnmpException $e) {
     // handle exception
 }
 
@@ -135,7 +135,7 @@ try {
     var_export($res);
 } catch (TimeoutException $e) {
     // handle exception
-} catch (SnmpNetSnmpClientException $e) {
+} catch (SimpleSnmpException $e) {
     // handle exception
 }
 
@@ -164,7 +164,7 @@ try {
     $snmp->set($host, $community, $oid, 's', 'test', $timeout, $retries);
 } catch (TimeoutException $e) {
     // handle exception
-} catch (SnmpNetSnmpClientException $e) {
+} catch (SimpleSnmpException $e) {
     // handle exception
 }
 ```
@@ -181,7 +181,7 @@ class Builder
 public SimpleSnmpV2c getSimpleSnmpV2c ()
 
 
-class SimpleSnmpV2c
+class SimpleSnmpV2c implements SnmpV2cInterface
 
 public array get ( string $host, string $community, string $oid, int $timeout, int $retries )
 

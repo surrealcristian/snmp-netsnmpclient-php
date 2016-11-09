@@ -2,8 +2,8 @@
 
 namespace SurrealCristian\SnmpNetSnmpClient\Parser;
 
-use SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException;
-use SurrealCristian\SnmpNetSnmpClient\Exception\TimeoutException;
+use SurrealCristian\SimpleSnmp\Exception\SimpleSnmpException;
+use SurrealCristian\SimpleSnmp\Exception\TimeoutException;
 use SurrealCristian\SnmpNetSnmpClient\Str;
 
 class ProcOpenFnParser
@@ -15,7 +15,7 @@ class ProcOpenFnParser
                 throw new TimeoutException();
             }
 
-            throw new SnmpNetSnmpClientException($fnret['stderr']);
+            throw new SimpleSnmpException($fnret['stderr']);
         }
 
         return $fnret['stdout'];

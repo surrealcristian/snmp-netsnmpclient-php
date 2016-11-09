@@ -2,7 +2,7 @@
 
 namespace SurrealCristian\SnmpNetSnmpClient;
 
-use SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException;
+use SurrealCristian\SimpleSnmp\Exception\SimpleSnmpException;
 use SurrealCristian\SnmpNetSnmpClient\Parser\ProcOpenFnParser;
 
 /**
@@ -30,7 +30,7 @@ class ProcOpenFn
         $process = proc_open($cmd, $descriptorspec, $pipes);
 
         if ($process === false) {
-            throw new SnmpNetSnmpClientException('Could not open the process');
+            throw new SimpleSnmpException('Could not open the process');
         }
 
         $stdout = trim(stream_get_contents($pipes[1]));

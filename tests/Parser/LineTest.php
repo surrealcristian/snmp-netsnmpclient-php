@@ -21,7 +21,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => 'STRING',
                     'value' => '"foo 0"',
                 ),
@@ -36,7 +36,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => 'OID',
                     'value' => '.1.2.4.0',
                 ),
@@ -51,7 +51,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => 'INTEGER',
                     'value' => '72',
                 ),
@@ -66,7 +66,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => null,
                     'value' => '""',
                 ),
@@ -81,7 +81,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => null,
                     'value' => '777',
                 ),
@@ -96,7 +96,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => 'Gauge32',
                     'value' => '1000000000',
                 ),
@@ -111,7 +111,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => 'Hex-STRING',
                     'value' => '00 11 22 AA BB CC',
                 ),
@@ -126,7 +126,7 @@ class LineTest extends PHPUnit_Framework_TestCase
                 'parsed' => true,
                 'type' => 'OID_TYPEOPT_VALUE',
                 'data' => array(
-                    'oid' => $oid,
+                    'oid' => '1.2.3.0',
                     'type' => 'IpAddress',
                     'value' => '127.0.0.1',
                 ),

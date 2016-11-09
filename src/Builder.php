@@ -15,9 +15,6 @@ use SurrealCristian\SnmpNetSnmpClient\ProcOpenFn;
 
 use SurrealCristian\SnmpNetSnmpClient\SimpleSnmpV2c;
 
-/**
- * @codeCoverageIgnore
- */
 class Builder
 {
     public function getSimpleSnmpV2c()

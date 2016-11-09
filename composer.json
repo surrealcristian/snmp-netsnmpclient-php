@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "surrealcristian/simple-snmp": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.0"
