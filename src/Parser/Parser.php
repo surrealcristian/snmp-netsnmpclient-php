@@ -1,9 +1,9 @@
 <?php
 
-namespace SurrealCristian\SnmpNetSnmpClient;
+namespace SurrealCristian\SnmpNetSnmpClient\Parser;
 
-use RuntimeException;
-use SurrealCristian\SnmpNetSnmpClient\LineFactory;
+use SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException;
+use SurrealCristian\SnmpNetSnmpClient\Parser\LineFactory;
 
 class Parser
 {
@@ -50,7 +50,7 @@ class Parser
 
         if ($firstLine->type !== 'OID_TYPEOPT_VALUE') {
             $msg = 'The type of the first element of the line objects buffer is not OID_TYPEOPT_VALUE';
-            throw new RuntimeException($msg);
+            throw new SnmpNetSnmpClientException($msg);
         }
 
         $value = $firstLine->data['value'];

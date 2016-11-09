@@ -1,6 +1,6 @@
 <?php
 
-namespace SurrealCristian\SnmpNetSnmpClient;
+namespace SurrealCristian\SnmpNetSnmpClient\Parser;
 
 class Line
 {
@@ -34,7 +34,7 @@ class Line
                 : null;
 
             $this->data = array(
-                'oid' => $matches['oid'],
+                'oid' => trim($matches['oid'], '.'),
                 'type' => $valueType,
                 'value' => $matches['value'],
             );

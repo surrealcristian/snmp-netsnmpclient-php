@@ -1,9 +1,9 @@
 <?php
 
-namespace SurrealCristian\SnmpNetSnmpClient\Test;
+namespace SurrealCristian\SnmpNetSnmpClient\Parser\Test;
 
 use PHPUnit_Framework_TestCase;
-use SurrealCristian\SnmpNetSnmpClient\Line;
+use SurrealCristian\SnmpNetSnmpClient\Parser\Line;
 
 class LineTest extends PHPUnit_Framework_TestCase
 {

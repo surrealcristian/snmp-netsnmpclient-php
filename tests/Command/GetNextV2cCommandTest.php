@@ -1,9 +1,11 @@
 <?php
 
-namespace SurrealCristian\SnmpNetSnmpClient\Test;
+namespace SurrealCristian\SnmpNetSnmpClient\Command\Test;
 
 use PHPUnit_Framework_TestCase;
-use SurrealCristian\SnmpNetSnmpClient\GetNextV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\GetNextV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Parser\LineFactory;
+use SurrealCristian\SnmpNetSnmpClient\Parser\Parser;
 
 class GetNextV2cCommandTest extends PHPUnit_Framework_TestCase
 {
@@ -19,7 +21,7 @@ class GetNextV2cCommandTest extends PHPUnit_Framework_TestCase
     protected function get()
     {
         $obj = new GetNextV2cCommand(
-            $this->procOpenFnMock, '127.0.0.1', 'private', '1.2.3.0', 500000, 3
+            $this->procOpenFnMock, new Parser(new LineFactory)
         );
 
         return $obj;
@@ -27,10 +29,7 @@ class GetNextV2cCommandTest extends PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $retval = array(
-            'stdout' => '1.2.3.0 = INTEGER: 77',
-            'stderr' => '',
-        );
+        $retval = '1.2.3.1 = INTEGER: 77';
 
         $this->procOpenFnMock
             ->method('execute')
@@ -38,9 +37,13 @@ class GetNextV2cCommandTest extends PHPUnit_Framework_TestCase
 
         $cmd = $this->get();
 
-        $actual = $cmd->execute();
+        $actual = $cmd->execute('127.0.0.1', 'private', '1.2.3.0', 500000, 3);
 
-        $expected = '1.2.3.0 = INTEGER: 77';
+        $expected = array(
+            'oid' => '1.2.3.1',
+            'type' => 'INTEGER',
+            'value' => '77',
+        );
 
         $this->assertEquals($expected, $actual);
     }

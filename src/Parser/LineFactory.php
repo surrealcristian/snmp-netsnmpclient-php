@@ -1,8 +1,8 @@
 <?php
 
-namespace SurrealCristian\SnmpNetSnmpClient;
+namespace SurrealCristian\SnmpNetSnmpClient\Parser;
 
-use SurrealCristian\SnmpNetSnmpClient\Line;
+use SurrealCristian\SnmpNetSnmpClient\Parser\Line;
 
 /**
  * @codeCoverageIgnore

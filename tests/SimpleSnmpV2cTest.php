@@ -3,19 +3,41 @@
 namespace SurrealCristian\SnmpNetSnmpClient\Test;
 
 use PHPUnit_Framework_TestCase;
-use SurrealCristian\SnmpNetSnmpClient\CommandFactory;
-use SurrealCristian\SnmpNetSnmpClient\LineFactory;
-use SurrealCristian\SnmpNetSnmpClient\Parser;
-use SurrealCristian\SnmpNetSnmpClient\SetParser;
+use SurrealCristian\SnmpNetSnmpClient\Command\GetV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\GetNextV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\WalkV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\BulkWalkV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\SetV2cCommand;
 use SurrealCristian\SnmpNetSnmpClient\SimpleSnmpV2c;
 
 class SimpleSnmpV2cTest extends PHPUnit_Framework_TestCase
 {
     protected $commandFactory;
+    protected $getV2cCommandMock;
+    protected $getNextV2cCommandMock;
+    protected $walkV2cCommandMock;
+    protected $bulkWalkV2cCommandMock;
+    protected $setV2cCommandMock;
 
     protected function setUp()
     {
-        $this->commandFactoryMock = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\CommandFactory')
+        $this->getV2cCommandMock = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\Command\GetV2cCommand')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->getNextV2cCommandMock = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\Command\GetNextV2cCommand')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->walkV2cCommandMock = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\Command\WalkV2cCommand')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->bulkWalkV2cCommandMock = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\Command\BulkWalkV2cCommand')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->setV2cCommandMock = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\Command\SetV2cCommand')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -23,9 +45,11 @@ class SimpleSnmpV2cTest extends PHPUnit_Framework_TestCase
     protected function get()
     {
         $obj = new SimpleSnmpV2c(
-            $this->commandFactoryMock,
-            new Parser(new LineFactory),
-            new SetParser
+            $this->getV2cCommandMock,
+            $this->getNextV2cCommandMock,
+            $this->walkV2cCommandMock,
+            $this->bulkWalkV2cCommandMock,
+            $this->setV2cCommandMock
         );
 
         return $obj;
@@ -33,19 +57,15 @@ class SimpleSnmpV2cTest extends PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $getV2cCommand = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\GetV2cCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $retval = array(
+            'oid' => '.1.2.3.0',
+            'type' => 'STRING',
+            'value' => '"foo bar"',
+        );
 
-        $retval = '.1.2.3.0 = STRING: "foo bar"';
-
-        $getV2cCommand
+        $this->getV2cCommandMock
             ->method('execute')
             ->will($this->returnValue($retval));
-
-        $this->commandFactoryMock
-            ->method('getGetV2cCommand')
-            ->will($this->returnValue($getV2cCommand));
 
         $snmp = $this->get();
 
@@ -53,30 +73,20 @@ class SimpleSnmpV2cTest extends PHPUnit_Framework_TestCase
             '127.0.0.1', 'private', '.1.2.3.0', 500000, 3
         );
 
-        $expected = array(
-            'oid' => '.1.2.3.0',
-            'type' => 'STRING',
-            'value' => '"foo bar"',
-        );
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($retval, $actual);
     }
 
     public function testGetNext()
     {
-        $getNextV2cCommand = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\GetNextV2cCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $retval = array(
+            'oid' => '.1.2.3.1',
+            'type' => 'STRING',
+            'value' => '"foo bar"',
+        );
 
-        $retval = '.1.2.3.1 = STRING: "foo bar"';
-
-        $getNextV2cCommand
+        $this->getNextV2cCommandMock
             ->method('execute')
             ->will($this->returnValue($retval));
-
-        $this->commandFactoryMock
-            ->method('getGetNextV2cCommand')
-            ->will($this->returnValue($getNextV2cCommand));
 
         $snmp = $this->get();
 
@@ -84,33 +94,27 @@ class SimpleSnmpV2cTest extends PHPUnit_Framework_TestCase
             '127.0.0.1', 'private', '.1.2.3.0', 500000, 3
         );
 
-        $expected = array(
-            'oid' => '.1.2.3.1',
-            'type' => 'STRING',
-            'value' => '"foo bar"',
-        );
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($retval, $actual);
     }
 
     public function testWalk()
     {
-        $walkV2cCommand = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\WalkV2cCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $retval = array(
+            array(
+                'oid' => '.1.2.3.0',
+                'type' => 'STRING',
+                'value' => '"foo bar 00"',
+            ),
+            array(
+                'oid' => '.1.2.3.1',
+                'type' => 'STRING',
+                'value' => '"foo bar 01"',
+            ),
+        );
 
-        $retval = <<<EOQ
-.1.2.3.0 = STRING: "foo bar 00"
-.1.2.3.1 = STRING: "foo bar 01"
-EOQ;
-
-        $walkV2cCommand
+        $this->walkV2cCommandMock
             ->method('execute')
             ->will($this->returnValue($retval));
-
-        $this->commandFactoryMock
-            ->method('getWalkV2cCommand')
-            ->will($this->returnValue($walkV2cCommand));
 
         $snmp = $this->get();
 
@@ -118,7 +122,12 @@ EOQ;
             '127.0.0.1', 'private', '.1.2.3.0', 500000, 3
         );
 
-        $expected = array(
+        $this->assertEquals($retval, $actual);
+    }
+
+    public function testBulkWalk()
+    {
+        $retval = array(
             array(
                 'oid' => '.1.2.3.0',
                 'type' => 'STRING',
@@ -131,27 +140,9 @@ EOQ;
             ),
         );
 
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function testBulkWalk()
-    {
-        $bulkWalkV2cCommand = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\BulkWalkV2cCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $retval = <<<EOQ
-.1.2.3.0 = STRING: "foo bar 00"
-.1.2.3.1 = STRING: "foo bar 01"
-EOQ;
-
-        $bulkWalkV2cCommand
+        $this->bulkWalkV2cCommandMock
             ->method('execute')
             ->will($this->returnValue($retval));
-
-        $this->commandFactoryMock
-            ->method('getBulkWalkV2cCommand')
-            ->will($this->returnValue($bulkWalkV2cCommand));
 
         $snmp = $this->get();
 
@@ -159,41 +150,14 @@ EOQ;
             '127.0.0.1', 'private', '.1.2.3.0', 500000, 3
         );
 
-        $expected = array(
-            array(
-                'oid' => '.1.2.3.0',
-                'type' => 'STRING',
-                'value' => '"foo bar 00"',
-            ),
-            array(
-                'oid' => '.1.2.3.1',
-                'type' => 'STRING',
-                'value' => '"foo bar 01"',
-            ),
-        );
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($retval, $actual);
     }
 
     public function testSet()
     {
-        $setV2cCommand = $this->getMockBuilder('SurrealCristian\SnmpNetSnmpClient\SetV2cCommand')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $retval = <<<EOQ
-What returns
-a successful SET command?
-
-EOQ;
-
-        $setV2cCommand
+        $this->setV2cCommandMock
             ->method('execute')
-            ->will($this->returnValue($retval));
-
-        $this->commandFactoryMock
-            ->method('getSetV2cCommand')
-            ->will($this->returnValue($setV2cCommand));
+            ->will($this->returnValue(null));
 
         $snmp = $this->get();
 
@@ -201,11 +165,6 @@ EOQ;
             '127.0.0.1', 'private', '.1.2.3.0', 's', 'test', 500000, 3
         );
 
-        $expected = array(
-            'What returns',
-            'a successful SET command?',
-        );
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals(null, $actual);
     }
 }

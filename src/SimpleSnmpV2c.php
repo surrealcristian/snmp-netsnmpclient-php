@@ -2,24 +2,32 @@
 
 namespace SurrealCristian\SnmpNetSnmpClient;
 
-use SurrealCristian\SnmpNetSnmpClient\CommandFactory;
-use SurrealCristian\SnmpNetSnmpClient\Parser;
-use SurrealCristian\SnmpNetSnmpClient\SetParser;
+use SurrealCristian\SnmpNetSnmpClient\Command\GetV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\GetNextV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\WalkV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\BulkWalkV2cCommand;
+use SurrealCristian\SnmpNetSnmpClient\Command\SetV2cCommand;
 
 class SimpleSnmpV2c
 {
-    protected $commandFactory;
-    protected $parser;
-    protected $setParser;
+    protected $getV2cCommand;
+    protected $getNextV2cCommand;
+    protected $walkV2cCommand;
+    protected $bulkWalkV2cCommand;
+    protected $setV2cCommand;
 
     public function __construct(
-        CommandFactory $commandFactory,
-        Parser $parser,
-        SetParser $setParser
+        GetV2cCommand $getV2cCommand,
+        GetNextV2cCommand $getNextV2cCommand,
+        WalkV2cCommand $walkV2cCommand,
+        BulkWalkV2cCommand $bulkWalkV2cCommand,
+        SetV2cCommand $setV2cCommand
     ) {
-        $this->commandFactory = $commandFactory;
-        $this->parser = $parser;
-        $this->setParser = $setParser;
+        $this->getV2cCommand = $getV2cCommand;
+        $this->getNextV2cCommand = $getNextV2cCommand;
+        $this->walkV2cCommand = $walkV2cCommand;
+        $this->bulkWalkV2cCommand = $bulkWalkV2cCommand;
+        $this->setV2cCommand = $setV2cCommand;
     }
 
     public function get($host, $community, $oid, $timeout, $retries)
@@ -29,13 +37,9 @@ class SimpleSnmpV2c
 
         $retries = intval($retries);
 
-        $command = $this->commandFactory->getGetV2cCommand(
+        $ret = $this->getV2cCommand->execute(
             $host, $community, $oid, $timeout, $retries
         );
-        $output = $command->execute();
-
-        $ret = $this->parser->parse($output);
-        $ret = $ret[0];
 
         return $ret;
     }
@@ -47,13 +51,9 @@ class SimpleSnmpV2c
 
         $retries = intval($retries);
 
-        $command = $this->commandFactory->getGetNextV2cCommand(
+        $ret = $this->getNextV2cCommand->execute(
             $host, $community, $oid, $timeout, $retries
         );
-        $output = $command->execute();
-
-        $ret = $this->parser->parse($output);
-        $ret = $ret[0];
 
         return $ret;
     }
@@ -65,12 +65,9 @@ class SimpleSnmpV2c
 
         $retries = intval($retries);
 
-        $command = $this->commandFactory->getWalkV2cCommand(
+        $ret = $this->walkV2cCommand->execute(
             $host, $community, $oid, $timeout, $retries
         );
-        $output = $command->execute();
-
-        $ret = $this->parser->parse($output);
 
         return $ret;
     }
@@ -82,12 +79,9 @@ class SimpleSnmpV2c
 
         $retries = intval($retries);
 
-        $command = $this->commandFactory->getBulkWalkV2cCommand(
+        $ret = $this->bulkWalkV2cCommand->execute(
             $host, $community, $oid, $timeout, $retries
         );
-        $output = $command->execute();
-
-        $ret = $this->parser->parse($output);
 
         return $ret;
     }
@@ -100,13 +94,8 @@ class SimpleSnmpV2c
 
         $retries = intval($retries);
 
-        $command = $this->commandFactory->getSetV2cCommand(
+        $this->setV2cCommand->execute(
             $host, $community, $oid, $type, $value, $timeout, $retries
         );
-        $output = $command->execute();
-
-        $ret = $this->setParser->parse($output);
-
-        return $ret;
     }
 }

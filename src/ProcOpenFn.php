@@ -2,13 +2,21 @@
 
 namespace SurrealCristian\SnmpNetSnmpClient;
 
-use RuntimeException;
+use SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException;
+use SurrealCristian\SnmpNetSnmpClient\Parser\ProcOpenFnParser;
 
 /**
  * @codeCoverageIgnore
  */
 class ProcOpenFn
 {
+    protected $parser;
+
+    public function __construct(ProcOpenFnParser $parser)
+    {
+        $this->parser = $parser;
+    }
+
     public function execute($cmd)
     {
         $descriptorspec = array(
@@ -22,7 +30,7 @@ class ProcOpenFn
         $process = proc_open($cmd, $descriptorspec, $pipes);
 
         if ($process === false) {
-            throw new RuntimeException('Could not open the process');
+            throw new SnmpNetSnmpClientException('Could not open the process');
         }
 
         $stdout = trim(stream_get_contents($pipes[1]));
@@ -33,10 +41,12 @@ class ProcOpenFn
 
         $tmp = proc_close($process);
 
-        $ret = array(
+        $fnret = array(
             'stdout' => $stdout,
             'stderr' => $stderr,
         );
+
+        $ret = $this->parser->parse($fnret);
 
         return $ret;
     }

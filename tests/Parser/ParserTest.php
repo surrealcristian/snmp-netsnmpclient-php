@@ -1,10 +1,10 @@
 <?php
 
-namespace SurrealCristian\SnmpNetSnmpClient\Test;
+namespace SurrealCristian\SnmpNetSnmpClient\Parser\Test;
 
 use PHPUnit_Framework_TestCase;
-use SurrealCristian\SnmpNetSnmpClient\LineFactory;
-use SurrealCristian\SnmpNetSnmpClient\Parser;
+use SurrealCristian\SnmpNetSnmpClient\Parser\LineFactory;
+use SurrealCristian\SnmpNetSnmpClient\Parser\Parser;
 
 class ParserTest extends PHPUnit_Framework_TestCase
 {
@@ -57,9 +57,9 @@ EOS;
     }
 
     /**
-     * @expectedException Exception
+     * @expectedException SurrealCristian\SnmpNetSnmpClient\Exception\SnmpNetSnmpClientException
      */
-    public function testParseThrowsException()
+    public function testParseThrowsBaseException()
     {
         $parser = $this->get();
 
